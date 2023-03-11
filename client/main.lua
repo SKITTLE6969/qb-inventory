@@ -786,26 +786,26 @@ RegisterCommand('inventory', function()
                     maxweight = maxweight,
                     slots = slots,
                 }
-                SetCurrentPedWeapon(ped, GetHashKey("WEAPON_UNARMED"), true)
                 TriggerServerEvent("inventory:server:OpenInventory", "trunk", CurrentVehicle, other)
+		RemoveAllPedWeapons(ped, true)
                 OpenTrunk()
             elseif CurrentGlovebox then
-                SetCurrentPedWeapon(ped, GetHashKey("WEAPON_UNARMED"), true)
                 TriggerServerEvent("inventory:server:OpenInventory", "glovebox", CurrentGlovebox)
+		RemoveAllPedWeapons(ped, true)
             elseif CurrentDrop ~= 0 then
-                SetCurrentPedWeapon(ped, GetHashKey("WEAPON_UNARMED"), true)
                 TriggerServerEvent("inventory:server:OpenInventory", "drop", CurrentDrop)
+		RemoveAllPedWeapons(ped, true)
             elseif VendingMachine then
                 local ShopItems = {}
                 ShopItems.label = "Vending Machine"
                 ShopItems.items = Config.VendingItem
                 ShopItems.slots = #Config.VendingItem
-                SetCurrentPedWeapon(ped, GetHashKey("WEAPON_UNARMED"), true)
                 TriggerServerEvent("inventory:server:OpenInventory", "shop", "Vendingshop_"..math.random(1, 99), ShopItems)
+		RemoveAllPedWeapons(ped, true)
             else
                 openAnim()
-                SetCurrentPedWeapon(ped, GetHashKey("WEAPON_UNARMED"), true)
                 TriggerServerEvent("inventory:server:OpenInventory")
+		RemoveAllPedWeapons(ped, true)
             end
         end
     end
@@ -905,20 +905,20 @@ RegisterNUICallback("CloseInventory", function(_, cb)
     end
     if CurrentVehicle ~= nil then
         CloseTrunk()
-        SetCurrentPedWeapon(ped, GetHashKey("WEAPON_UNARMED"), true)
         TriggerServerEvent("inventory:server:SaveInventory", "trunk", CurrentVehicle)
+	RemoveAllPedWeapons(ped, true)
         CurrentVehicle = nil
     elseif CurrentGlovebox ~= nil then
-        SetCurrentPedWeapon(ped, GetHashKey("WEAPON_UNARMED"), true)
         TriggerServerEvent("inventory:server:SaveInventory", "glovebox", CurrentGlovebox)
+	RemoveAllPedWeapons(ped, true)
         CurrentGlovebox = nil
     elseif CurrentStash ~= nil then
-        SetCurrentPedWeapon(ped, GetHashKey("WEAPON_UNARMED"), true)
         TriggerServerEvent("inventory:server:SaveInventory", "stash", CurrentStash)
+	RemoveAllPedWeapons(ped, true)
         CurrentStash = nil
     else
-        SetCurrentPedWeapon(ped, GetHashKey("WEAPON_UNARMED"), true)
         TriggerServerEvent("inventory:server:SaveInventory", "drop", CurrentDrop)
+	RemoveAllPedWeapons(ped, true)
         CurrentDrop = nil
     end
     SetNuiFocus(false, false)
